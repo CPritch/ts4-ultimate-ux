@@ -14,8 +14,8 @@ If you're a Sims 4 player looking to use this mod, head over to the [Releases](h
 
 ### Requirements
 
-- Base game: The Sims 4
-- Programming Language: Python
+- The Sims 4 Base Game
+- Python 3
 
 ### Getting Started
 
