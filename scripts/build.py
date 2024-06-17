@@ -7,7 +7,8 @@ default_options = {
     'build_options': {
         'clean_before_build': True,
         'export_dir': './export/ui',
-        'output_dir': './build/ui'
+        'output_dir': './build/ui',
+        'package_file': './build/UltimateUX.package'
     },
     'source_files': {
         'xml': {
