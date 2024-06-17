@@ -1,0 +1,80 @@
+<!--
+widgetlist.xml defines all widgets loaded into the game. <widgets> contains <widget> elements ordered by name. 
+<gameStates> lists valid widgets per game state, ordered by layering priority. 
+Widgets can have visibility and positioning per state.
+
+During the build process this will be merged into your exisiting widget list so make sure it's exported under ./build/ui
+Widgets with the same name identifier will be overwritten.
+
+<widget> attributes:
+
+name: required, unique identifier
+#onDemandLoad: optional, default "false"
+#onDemandMinTimeBeforeUnload: optional, default "0"
+platform: optional, "PC" or "CONSOLE" (omit for all platforms)
+
+<widget> can contain:
+
+<layerProps>: Sets modal properties
+<position>, <origin>: Positioning (0-100 percentage)
+#<useScreenMarginBG>: optional, default "false"
+#<hashName>: optional, default "false"
+#<margin>: optional margins
+
+<gameState> lists widgets with optional visibility and positioning overrides.
+Prefix optional elements/attributes with '#'. See example structure below.
+-->
+
+
+<widgetList>
+    <widgets>
+    </widgets>
+    
+    <gameStates> <!-- After adding a widget -->
+        <gameState stateName="play"> <!-- substate_live -->
+        </gameState>
+        
+        <!-- Use to unload widgets quickly when entering and leaving live/build mode. -->
+        <gameState stateName="leaveplayarea">
+        </gameState>
+        
+        <gameState stateName="cas">
+        </gameState>
+        
+        <gameState stateName="liveedit">
+        </gameState>
+        
+        <gameState stateName="build">
+        </gameState>
+        
+        <gameState stateName="travel">
+        </gameState>
+        
+        <gameState stateName="lotselect">
+        </gameState>
+        
+        <!-- Use to unload CAS specific widgets when leaving CAS. -->
+        <gameState stateName="enterlotselect">
+        </gameState>
+        
+        <!-- Use to unload CAS specific widgets when leaving CAS. -->
+        <gameState stateName="entermainmenu">
+        </gameState>
+        
+        <gameState stateName="mainmenu">
+        </gameState>
+        
+        <gameState stateName="startup">
+        </gameState>
+                
+        <gameState stateName="photography">
+        </gameState>
+        
+        <gameState stateName="firstlaunch">
+        </gameState>
+        
+        <gameState stateName="legalagreements">
+        </gameState>
+        
+    </gameStates>
+</widgetList>
