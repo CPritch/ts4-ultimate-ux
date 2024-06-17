@@ -1,3 +1,6 @@
+build_options:
+  package_file: './build/UltimateUX.package'
+  
 source_files:
   xml:
     src: './src/config'
