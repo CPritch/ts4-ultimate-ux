@@ -101,8 +101,6 @@ def process_xml_files(config, base_dir) -> int:
                 export_file = os.path.join(export_dir, os.path.dirname(relative_path), export_filename)
                 output_file = os.path.join(output_dir, export_filename)
 
-                print(relative_path)
-
                 if not os.path.exists(export_file):
                     print(f"Error: Could not find exported file: {export_filename}")
                     continue
