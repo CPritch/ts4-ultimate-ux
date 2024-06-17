@@ -1,0 +1,20 @@
+build_options:
+  # clean_before_build: false
+  # export_dir: './export/ui'
+  # output_dir: './build/ui'
+
+source_files:
+  xml:
+    src: './src/config'
+    # action: 'merge'
+    mappings:
+      - friendly_name: 'widgetlist.xml'
+      # action: 'replace'
+        name: '0333406C!00000000!DE3FB8F4E5C1A9E5.FontConfiguration.xml'
+
+  scaleformgfx:
+    src: './dst/scaleformgfx'
+    # action: 'recompile'
+    actionscript:
+      - src: './src/actionscript/ultimateux'
+      - name: 'escapemenu.swf'
