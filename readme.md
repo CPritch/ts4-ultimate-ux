@@ -14,8 +14,9 @@ If you're a Sims 4 player looking to use this mod, head over to the [Releases](h
 
 ### Requirements
 
-- The Sims 4 Base Game
-- Python 3
+- [The Sims 4 Base Game](https://www.ea.com/games/the-sims/the-sims-4)
+- [Python 3](https://www.python.org/downloads/)
+- [JPEXS Command Line Decompiler](https://github.com/jindrapetrik/jpexs-decompiler/wiki/Installation)
 
 ### Getting Started
 
