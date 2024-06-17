@@ -124,8 +124,8 @@ def process_xml_files(config, base_dir) -> int:
 def main():
     written_files = 0
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    base_dir = os.path.abspath(os.path.join(script_dir, '..'))  # Get the parent directory of the script
-    os.chdir(script_dir)  # Change working directory to the script's directory
+    base_dir = os.path.abspath(os.path.join(script_dir, '..'))
+    os.chdir(script_dir)
 
     with open(os.path.join(base_dir, 'build.yaml'), 'r') as config_file:
         config = set_default_recursively(yaml.safe_load(config_file), default_options)
