@@ -12,4 +12,4 @@ source_files:
     src: './dst/scaleformgfx'
     actionscript:
       - src: './src/actionscript/escapemenu'
-      - name: 'escapemenu.swf'
+      - name: 'escapemenu.gfx'
