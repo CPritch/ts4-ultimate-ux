@@ -1,0 +1,13 @@
+{
+  "copy": {
+    "instanceName": "btnCredits",
+    "type": "PlaceObject3"
+  },
+  "instanceName": "btnUltimateUX",
+  "values": [
+    {
+      "key": "depth",
+      "value": 15
+    }
+  ]
+}
