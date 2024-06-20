@@ -16,8 +16,8 @@ If you're a Sims 4 player looking to use this mod, head over to the [Releases](h
 
 - [The Sims 4 Base Game](https://www.ea.com/games/the-sims/the-sims-4)
 - [Python 3](https://www.python.org/downloads/)
-- [JPEXS Command Line Decompiler](https://github.com/jindrapetrik/jpexs-decompiler/wiki/Installation)
 - [Java 8](https://www.java.com/en/download/)
+- [Sims SWF Compiler](https://github.com/CPritch/ts4-swf-compiler)
 
 ### Getting Started
 
@@ -25,7 +25,7 @@ If you're a Sims 4 player looking to use this mod, head over to the [Releases](h
 
 TBC - We're working on comprehensive setup instructions to help you get your development environment ready. Check back soon!
 - Copy your UI.package file from /The Sims 4/Data/Client
-- Assure that ffdec.bat or ffdec.sh is available in your path
+- Assure that sims-swf-compiler.jar is available in your path
 
 #### Building
 
