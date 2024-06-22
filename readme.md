@@ -41,7 +41,7 @@ We welcome contributions from the community! Whether it's bug reports, feature r
 
 ## License
 
-TBC - Information about the project's license will be added here.
+This project is licensed under the [MIT License](./LICENSE).
 
 ---
 
