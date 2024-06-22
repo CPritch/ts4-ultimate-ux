@@ -43,10 +43,6 @@ We welcome contributions from the community! Whether it's bug reports, feature r
 
 TBC - Information about the project's license will be added here.
 
-## Acknowledgements
-
-A big thank you to all the contributors and the Sims 4 modding community for their continuous support and inspiration.
-
 ---
 
 This README is a work in progress. As development continues, we'll update the "TBC" (To Be Completed) sections with more detailed information. Stay tuned!
