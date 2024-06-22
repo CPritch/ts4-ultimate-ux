@@ -9,7 +9,6 @@ source_files:
         name: '0333406C!00000000!DE3FB8F4E5C1A9E5.FontConfiguration.xml'
 
   scaleformgfx:
-    src: './dst/scaleformgfx'
-    actionscript:
-      - src: './src/actionscript/escapemenu'
-      - name: 'escapemenu.gfx'
+    imports:
+      - file: 'escapemenu.swf'
+        src: './src/gfx/escapemenu'
