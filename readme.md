@@ -4,6 +4,8 @@ Welcome to the source repository for the Ultimate UX overhaul mod for The Sims 4
 
 ## Description
 
+**THE MOD IS WIP AND NOT YET RELEASED**
+
 The TS4 Ultimate UX Mod aims to enhance and streamline the user experience in The Sims 4. By overhauling various aspects of the game's interface and interactions, we strive to make your simming experience more intuitive, efficient, and enjoyable.
 
 ## For Sims 4 Players
