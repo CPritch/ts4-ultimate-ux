@@ -3,6 +3,7 @@ import yaml
 import shutil
 import xml.etree.ElementTree as ET
 import subprocess
+import platform
 
 default_options = {
     'build_options': {
@@ -15,7 +16,8 @@ default_options = {
         'xml': {
             'action': 'merge',
             'src': './src',
-            'mappings': []
+            'mappings': [],
+            'merge_keys': []
         },
         'scaleformgfx': {
             'src': './dst',
@@ -36,47 +38,33 @@ def set_default_recursively(tgt, default):
             tgt.setdefault(k, default[k])
     return tgt
 
-def replace_file(src_file, dst_file):
-    os.makedirs(os.path.dirname(dst_file), exist_ok=True)
-    shutil.copy2(src_file, dst_file)
-
-def merge_xml(original_tree, new_tree):
-    original_root = original_tree.getroot()
-    new_root = new_tree.getroot()
-
-    # Merge widgets
-    original_widgets = original_root.find('widgets')
-    new_widgets = new_root.find('widgets')
-    if new_widgets is not None:
-        if original_widgets is None:
-            original_widgets = ET.SubElement(original_root, 'widgets')
-        for new_widget in new_widgets:
-            widget_name = new_widget.get('name')
-            existing_widget = original_widgets.find(f".//widget[@name='{widget_name}']")
-            if existing_widget is not None:
-                original_widgets.remove(existing_widget)
-            original_widgets.append(new_widget)
-
-    # Merge gameStates
-    original_game_states = original_root.find('gameStates')
-    new_game_states = new_root.find('gameStates')
-    if new_game_states is not None:
-        if original_game_states is None:
-            original_game_states = ET.SubElement(original_root, 'gameStates')
-        for new_state in new_game_states:
-            state_name = new_state.get('stateName')
-            existing_state = original_game_states.find(f".//gameState[@stateName='{state_name}']")
-            if existing_state is not None:
-                for new_widget in new_state.findall('widget'):
-                    widget_name = new_widget.get('name')
-                    existing_widget = existing_state.find(f".//widget[@name='{widget_name}']")
-                    if existing_widget is not None:
-                        existing_state.remove(existing_widget)
-                    existing_state.append(new_widget)
+def merge_xml_nodes(org_node, new_node, merge_keys):
+    for new_child in new_node:
+        attributes = [key for key in merge_keys if new_child.get(key)]
+        if len(attributes) > 0:
+            merge_child = org_node.find(f".//{new_child.tag}[@{attributes[0]}='{new_child.get(attributes[0])}']")
+            if merge_child is not None:
+                merge_xml_nodes(merge_child, new_child, merge_keys)
             else:
-                original_game_states.append(new_state)
+                org_node.append(new_child)
+        else:
+            org_children = org_node.findall(f".//{new_child.tag}")
+            if len(org_children) == 1:
+                merge_xml_nodes(org_children[0], new_child, merge_keys)
+            else:
+                org_node.append(new_child)
 
-    return original_tree
+def merge_xml_files(org_file, new_file, merge_keys):
+    org_name = org_file.split("\\")[-1]
+    new_name = new_file.split("\\")[-1]
+    print(f"Merging {org_name} with {new_name} using {merge_keys}")
+    org_root = ET.parse(org_file).getroot()
+    new_root = ET.parse(new_file).getroot()
+    if org_root.tag != new_root.tag:
+        raise Exception("Root XML tags do not match")
+    merge_xml_nodes(org_root, new_root, merge_keys)
+    return ET.tostring(org_root, encoding="unicode")
+
 
 def process_xml_files(config, base_dir) -> int:
     written_files = 0
@@ -86,6 +74,7 @@ def process_xml_files(config, base_dir) -> int:
     output_dir = os.path.abspath(os.path.join(base_dir, config['build_options']['output_dir']))
     default_action = xml_config['action']
     mappings = xml_config['mappings']
+    merge_keys = xml_config['merge_keys']
 
     for root, _, files in os.walk(src_dir):
         for file in files:
@@ -93,12 +82,10 @@ def process_xml_files(config, base_dir) -> int:
                 src_file = os.path.join(root, file)
                 relative_path = os.path.relpath(src_file, src_dir)
                 
-                # Check if there's a mapping for this file
                 mapping = next((m for m in mappings if m.get('friendly_name') == file), {})
                 
                 export_filename = mapping.get('name', file)
                 action = mapping.get('action', default_action)
-
 
                 export_file = os.path.join(export_dir, os.path.dirname(relative_path), export_filename)
                 output_file = os.path.join(output_dir, export_filename)
@@ -108,16 +95,15 @@ def process_xml_files(config, base_dir) -> int:
                     continue
 
                 if action == 'replace':
-                    replace_file(export_file, output_file)
-                    print(f"Replaced {src_file} with {export_file}")
+                    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+                    shutil.copy2(export_file, output_file)
+                    print(f"Replaced {file}")
                     written_files += 1
                 elif action == 'merge':
-                    original_tree = ET.parse(src_file)
-                    new_tree = ET.parse(export_file)
-                    merged_tree = merge_xml(original_tree, new_tree)
-                    os.makedirs(os.path.dirname(output_file), exist_ok=True)
-                    merged_tree.write(output_file)
-                    print(f"Merged {file} with {export_filename}")
+                    merged_xml = merge_xml_files(export_file, src_file, merge_keys + mapping.get('merge_keys',[]))
+                    with open(output_file, 'w') as out:
+                        out.write(merged_xml)
+                    print(f"Merged {file}")
                     written_files += 1
                 else:
                     print(f"Error: Unknown action '{action}' for {src_file}")
@@ -134,7 +120,7 @@ def process_scaleformgfx_files(config, base_dir) -> int:
         src_dir = os.path.abspath(os.path.join(base_dir, import_file['src']))
 
         if file_name.endswith('.swf'):
-            friendly_name = file_name.replace(".swf",".ScaleFormGFX")
+            friendly_name = file_name.replace(".swf", ".ScaleFormGFX")
             full_name = next((f for f in os.listdir(export_dir) if f.endswith(f'.{friendly_name}')), None)
             if full_name is None:
                 print(f"Error: No matching file found for {file_name}")
@@ -145,16 +131,12 @@ def process_scaleformgfx_files(config, base_dir) -> int:
         export_file = os.path.join(export_dir, full_name)
         output_file = os.path.join(output_dir, full_name)
 
-        print(src_dir)
-        print(export_file)
-        print(output_file)
+        if platform.system() == 'Windows':
+            cmd = ["sims-swf-compiler.bat"]
+        else:
+            cmd = ["sh", "sims-swf-compiler.sh"]
 
-        cmd = [
-            "sims-swf-compiler",
-            "-src", src_dir,
-            "-dst", export_file,
-            "-o", output_file
-        ]
+        cmd.extend(["-src", src_dir, "-dst", export_file, "-out", output_file])
 
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, check=True)

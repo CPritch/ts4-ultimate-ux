@@ -24,14 +24,20 @@ platform: optional, "PC" or "CONSOLE" (omit for all platforms)
 <gameState> lists widgets with optional visibility and positioning overrides.
 Prefix optional elements/attributes with '#'. See example structure below.
 -->
-
-
 <widgetList>
     <widgets>
+        <widget name="UltimateUXMenu" telemetryName="UXMN" onDemandLoad="true">
+            <layerProps layer="ALWAYS_ON_TOP">
+                <isModal>true</isModal>
+            </layerProps>
+            <position vPerc="0.5" hPerc="0.5" />
+            <origin vPerc="0.5" hPerc="0.5" />
+        </widget>
     </widgets>
     
     <gameStates> <!-- After adding a widget -->
         <gameState stateName="play"> <!-- substate_live -->
+            <widget name="UltimateUXMenu" />
         </gameState>
         
         <!-- Use to unload widgets quickly when entering and leaving live/build mode. -->
@@ -39,18 +45,23 @@ Prefix optional elements/attributes with '#'. See example structure below.
         </gameState>
         
         <gameState stateName="cas">
+            <widget name="UltimateUXMenu" />
         </gameState>
         
         <gameState stateName="liveedit">
+            <widget name="UltimateUXMenu" />
         </gameState>
         
         <gameState stateName="build">
+            <widget name="UltimateUXMenu" />
         </gameState>
         
         <gameState stateName="travel">
+            <widget name="UltimateUXMenu" />
         </gameState>
         
         <gameState stateName="lotselect">
+            <widget name="UltimateUXMenu" />
         </gameState>
         
         <!-- Use to unload CAS specific widgets when leaving CAS. -->
@@ -62,6 +73,7 @@ Prefix optional elements/attributes with '#'. See example structure below.
         </gameState>
         
         <gameState stateName="mainmenu">
+            <widget name="UltimateUXMenu" />
         </gameState>
         
         <gameState stateName="startup">
@@ -75,6 +87,5 @@ Prefix optional elements/attributes with '#'. See example structure below.
         
         <gameState stateName="legalagreements">
         </gameState>
-        
     </gameStates>
 </widgetList>
