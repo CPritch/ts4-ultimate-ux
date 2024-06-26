@@ -1,14 +1,23 @@
 build_options:
   package_file: './build/UltimateUX.package'
+  # clean_before_build: true
+  # export_dir: './export/ui'
+  # output_dir: './build/ui'
+  # package_file: './build/UltimateUX.package'
   
 source_files:
   xml:
+    # action: 'merge'
     src: './src/config'
-    mappings:
+    merge_keys: ['name']
+    mappings: # map file name to XML file to add to
       - friendly_name: 'widgetlist.xml'
         name: '0333406C!00000000!DE3FB8F4E5C1A9E5.FontConfiguration.xml'
+        merge_keys: ['stateName']
+        # action: 'merge' # actions can be specific to mappings
 
   scaleformgfx:
-    imports:
+    # action: 'recompile'
+    imports: # list of folders in sims-swf-compiler format
       - file: 'escapemenu.swf'
         src: './src/gfx/escapemenu'
