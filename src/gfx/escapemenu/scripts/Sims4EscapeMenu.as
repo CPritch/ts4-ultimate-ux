@@ -220,11 +220,12 @@ package widgets.General.EscapeMenu.menus
       
       protected function OnUltimateUXClick(param1:PushButtonEvent) : void
       {
-         CommunicationManager.SendUIMessage("ShowDialog",{
-            "type":DialogTypes.CUSTOM,
-            "title":"Ultimate UX",
-            "description":"Ultimate UX Settings."
-         });
+         // CommunicationManager.SendUIMessage("ShowDialog",{
+         //    "type":DialogTypes.CUSTOM,
+         //    "title":"Ultimate UX",
+         //    "description":"Ultimate UX Settings."
+         // });
+         CommunicationManager.SendUIMessage("ShowUltimateUXMenu");
       }
       
       protected function HandleGameSaveLockUnlock(param1:GameSaveLockUnlock) : void
